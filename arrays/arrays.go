@@ -1,6 +1,9 @@
 package arrays
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 func HourglassSum(arr [][]int32) int32 {
 	var max int32 = math.MinInt32
@@ -15,4 +18,36 @@ func HourglassSum(arr [][]int32) int32 {
 		}
 	}
 	return max
+}
+
+func minimumBribes(q []int32) {
+	var x = make([]int32, len(q))
+	for i, _ := range q {
+		x[i] = int32(i + 1)
+	}
+	bribeCount := 0
+
+	for index, elem := range q {
+		if elem != x[index] {
+			if elem != x[index] && index < len(q)-2 {
+				if x[index+2] == elem {
+					bribeCount += 2
+					x[index+2] = x[index+1]
+					x[index+1] = x[index]
+					x[index] = elem
+				} else if x[index+1] == elem {
+					bribeCount += 1
+					x[index+1] = x[index]
+					x[index] = elem
+				} else {
+					fmt.Println("Too chaotic")
+					return
+				}
+			}
+		}
+		if index == len(q)-2 && elem != x[index] {
+			bribeCount++
+		}
+	}
+	fmt.Println(bribeCount)
 }
